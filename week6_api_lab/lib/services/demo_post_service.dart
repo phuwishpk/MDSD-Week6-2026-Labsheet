@@ -27,8 +27,8 @@ Future<void> updateDemoPost() async {
     headers: {'Content-Type': 'application/json; charset=UTF-8'},
     body: jsonEncode({
       'id': 1,
-      'title': 'อัปเดตข้อมูลโดย ภูวิศ',
-      'body': 'รหัสนักศึกษา: 12345678',
+      'title': 'อัปเดตข้อมูลโดย ภูวิชญ์ ประกอบจิตร',
+      'body': 'รหัสนักศึกษา: 67030183',
       'userId': 1,
     }),
   );

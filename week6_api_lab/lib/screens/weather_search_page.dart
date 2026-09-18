@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../models/weather.dart';
 import '../services/weather_service.dart';
 import '../services/demo_post_service.dart';
+import '../services/ai_product_service.dart';
+import '../services/weather_service_dio.dart';
 
 enum _ViewStatus { idle, loading, success, error }
 
@@ -92,6 +94,55 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
             ElevatedButton(
               onPressed: () => updateDemoPost(),
               child: const Text('ทดลอง PUT (ขั้นตอนที่ 3.2)'),
+            ),
+            const Divider(height: 32),
+            const Text(
+              'ส่วนทดสอบ API ด้วย AI (ส่วนที่ 4)',
+              style: TextStyle(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                print('กำลังโหลดข้อมูลสินค้า...');
+                try {
+                  final products = await fetchAiProducts();
+                  print('โหลดสำเร็จ: ได้มา ${products.length} รายการ\n');
+                  
+                  // วนลูปปริ้นข้อมูลทั้งหมด 20 รายการ
+                  for (var i = 0; i < products.length; i++) {
+                    print('สินค้าที่ ${i + 1}: ${products[i].title}');
+                    print('ราคา: \$${products[i].price}');
+                    print('---');
+                  }
+                  
+                } catch (e) {
+                  print('เกิดข้อผิดพลาด: $e');
+                }
+              },
+              child: const Text('ทดลอง fetchAiProducts (ขั้นตอนที่ 4.3)'),
+            ),
+            const Divider(height: 32),
+            const Text(
+              'ส่วนทดสอบ Dio (ส่วนที่ 5)',
+              style: TextStyle(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                print('--- ทดสอบเรียก API ด้วย Dio ---');
+                final city = _cityController.text.isNotEmpty ? _cityController.text : 'Bangkok';
+                try {
+                  final weather = await fetchWeatherWithDio(city);
+                  print('เมือง: ${weather.cityName}');
+                  print('อุณหภูมิ: ${weather.temperature}°C');
+                  print('ความรู้สึกเหมือน: ${weather.feelsLike}°C');
+                  print('สภาพอากาศ: ${weather.description}');
+                } catch (e) {
+                  print('เกิดข้อผิดพลาด: $e');
+                }
+                print('----------------------------\n');
+              },
+              child: const Text('ทดลอง fetchWeatherWithDio (ขั้นตอนที่ 5.3)'),
             ),
           ],
         ),
