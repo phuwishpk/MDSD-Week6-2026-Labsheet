@@ -78,7 +78,15 @@ https://api.openweathermap.org/data/2.5/weather?q=Bangkok&appid=YOUR_API_KEY&uni
 > ✅ **Checkpoint 1.1** ถ่ายภาพหน้าจอ Postman ที่แสดง Status Code `200` พร้อม Response Body แบบเต็ม จากนั้นให้เขียนระบุใน ว่า key ใดใน JSON ที่คาดว่าจะต้องใช้แสดงผลในแอป (เช่น ชื่อเมือง, อุณหภูมิ, คำอธิบายสภาพอากาศ)
 
 ```text
-บันทึกรูปและคำตอบที่นี่
+![Checkpoint 1.1 Part 1](assets/images/cp1_1.png)
+![Checkpoint 1.1 Part 2](assets/images/cp1_2.png)
+
+คำตอบ:
+key ใน JSON ที่ต้องใช้แสดงผลในแอป คือ:
+- `name`: ใช้สำหรับแสดงชื่อเมือง
+- `main.temp`: ใช้สำหรับแสดงอุณหภูมิปัจจุบัน
+- `main.feels_like`: ใช้สำหรับแสดงความรู้สึกเหมือนอุณหภูมิเท่าไหร่
+- `weather[0].description`: ใช้สำหรับแสดงคำอธิบายสภาพอากาศ (เช่น "ฝนปานกลาง")
 ```
 ### ขั้นตอนที่ 1.2 — 🧠 คิดเอง/ออกแบบเอง
 
@@ -87,7 +95,13 @@ https://api.openweathermap.org/data/2.5/weather?q=Bangkok&appid=YOUR_API_KEY&uni
 > ✅ **Checkpoint 1.2** บันทึกด้านล่างว่านักศึกษาเลือกทดสอบกรณีใด คาดการณ์ Status Code ไว้ว่าอะไร และ Status Code จริงที่ได้คืออะไร (ตรงหรือไม่ตรงกับที่คาดไว้) พร้อมอธิบายว่าผลลัพธ์ที่ได้ตรงกับช่วง Status Code ใดตามตารางในบทเรียนหัวข้อ 6.3
 
 ```text
-บันทึกรูปและคำตอบที่นี่
+![Checkpoint 1.2](assets/images/cp1_3.png)
+
+คำตอบ:
+- ทดสอบกรณี: ค้นหาชื่อเมืองที่ไม่มีอยู่จริง (เช่น เปลี่ยน q=Bangkok999)
+- คาดการณ์ Status Code: 404 Not Found
+- Status Code จริงที่ได้: 404 Not Found (ตรงกับที่คาดไว้)
+- คำอธิบาย: 404 อยู่ในช่วง 4xx Client Error ซึ่งหมายถึงเป็นข้อผิดพลาดจากฝั่งเรา (Client) ที่ส่งคำขอค้นหาข้อมูล (เมือง) ที่ไม่มีอยู่จริงบนเซิร์ฟเวอร์
 ```
 ---
 
@@ -183,7 +197,7 @@ void main() {
 > ✅ **Checkpoint 2.1** รันไฟล์ทดสอบข้างต้น สังเกตค่าทั้ง 4 ฟิลด์ที่ `print()` ออกมาใน Debug Console ว่าตรงกับ Response Body จริงจาก Postman หรือไม่ ถ่ายภาพหน้าจอ Debug Console ที่แสดงว่าค่าทั้ง 4 ฟิลด์ถูกต้องตรงกับ JSON จริง
 
 ```text
-บันทึกรูปที่นี่
+![Checkpoint 2.1](assets/images/cp2_1.png)
 ```
 ### ขั้นตอนที่ 2.3 — 🧠 คิดเอง/ออกแบบเอง
 
@@ -233,7 +247,9 @@ class WeatherService {
 > ✅ **Checkpoint 2.2** บันทึกผลการตรวจสอบ `statusCode` อย่างน้อย 2 กรณี (สำเร็จ และ 404) ตามเกณฑ์ข้างต้น
 
 ```text
-บันทึกรูปและคำตอบที่นี่
+[คำตอบ]
+- กรณีสำเร็จ (statusCode == 200): โค้ดจะนำ response.body มาทำการ jsonDecode และแปลงเป็น Object ของ Weather เพื่อคืนค่ากลับไป 
+- กรณี 404 (statusCode == 404): โค้ดจะทำงานเข้าเงื่อนไข else if (response.statusCode == 404) และโยน Exception แจ้งว่า "ไม่พบเมืองที่คุณค้นหา" (ภาษาไทย)
 ```
 
 ### ขั้นตอนที่ 2.4 — 🧠 คิดเอง/ออกแบบเอง
@@ -250,6 +266,7 @@ class WeatherService {
 import 'package:flutter/material.dart';
 import '../models/weather.dart';
 import '../services/weather_service.dart';
+import '../services/demo_post_service.dart';
 
 enum _ViewStatus { idle, loading, success, error }
 
@@ -352,7 +369,11 @@ class MyApp extends StatelessWidget {
 > ✅ **Checkpoint 2.3** รันแอปแล้วทดสอบทั้ง 3 สถานการณ์ คือ (1) ค้นหาเมืองที่มีจริง (2) ค้นหาเมืองที่ไม่มีอยู่จริง (3) ปิด Wi-Fi/Data บนเครื่องแล้วลองค้นหา ถ่ายภาพหน้าจอทั้ง 3 กรณี
 
 ```text
-บันทึกรูปที่นี่
+![Checkpoint 2.3 - Success](assets/images/cp2_3_1.png)
+
+![Checkpoint 2.3 - Error Not Found](assets/images/cp2_3_2.png)
+
+![Checkpoint 2.3 - Error No Internet](assets/images/cp2_3_3.png)
 ```
 
 ---
@@ -403,7 +424,7 @@ ElevatedButton(
 
 > ✅ **Checkpoint 3.1** ถ่ายภาพหน้าจอ Debug Console ที่แสดง Status Code (ควรเป็น `201 Created`) พร้อม Response Body 
 ```text
-บันทึกรูปและคำตอบที่นี่
+![Checkpoint 3.1](assets/images/cp3_1.png)
 ```
 
 ### ขั้นตอนที่ 3.2 — 🧠 คิดเอง/ออกแบบเอง
@@ -430,7 +451,7 @@ Future<void> updateDemoPost() async {
 > ✅ **Checkpoint 3.2** ถ่ายภาพหน้าจอ Debug Console ที่แสดง Status Code ของการเรียก PUT (ควรเป็น `200 OK`) 
 
 ```text
-บันทึกรูปและคำตอบที่นี่
+![Checkpoint 3.2](assets/images/cp3_2.png)
 ```
 ---
 
