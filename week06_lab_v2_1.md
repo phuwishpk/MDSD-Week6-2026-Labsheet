@@ -198,11 +198,10 @@ void main() {
 
 > ✅ **Checkpoint 2.1** รันไฟล์ทดสอบข้างต้น สังเกตค่าทั้ง 4 ฟิลด์ที่ `print()` ออกมาใน Debug Console ว่าตรงกับ Response Body จริงจาก Postman หรือไม่ ถ่ายภาพหน้าจอ Debug Console ที่แสดงว่าค่าทั้ง 4 ฟิลด์ถูกต้องตรงกับ JSON จริง
 
-```text
 ![Postman Response Part 1](assets/images/cp2_1_postman1.png)
 ![Postman Response Part 2](assets/images/cp2_1_postman2.png)
 ![Checkpoint 2.1 Console Output](assets/images/cp2_1.png)
-```
+
 
 ### ขั้นตอนที่ 2.3 — 🧠 คิดเอง/ออกแบบเอง
 
@@ -374,13 +373,12 @@ class MyApp extends StatelessWidget {
 
 > ✅ **Checkpoint 2.3** รันแอปแล้วทดสอบทั้ง 3 สถานการณ์ คือ (1) ค้นหาเมืองที่มีจริง (2) ค้นหาเมืองที่ไม่มีอยู่จริง (3) ปิด Wi-Fi/Data บนเครื่องแล้วลองค้นหา ถ่ายภาพหน้าจอทั้ง 3 กรณี
 
-```text
 ![Checkpoint 2.3 - Success](assets/images/cp2_3_1.png)
 
 ![Checkpoint 2.3 - Error Not Found](assets/images/cp2_3_2.png)
 
 ![Checkpoint 2.3 - Error No Internet](assets/images/cp2_3_3.png)
-```
+
 
 ---
 
@@ -430,9 +428,8 @@ ElevatedButton(
 
 > ✅ **Checkpoint 3.1** ถ่ายภาพหน้าจอ Debug Console ที่แสดง Status Code (ควรเป็น `201 Created`) พร้อม Response Body
 
-```text
 ![Checkpoint 3.1](assets/images/cp3_1.png)
-```
+
 
 ### ขั้นตอนที่ 3.2 — 🧠 คิดเอง/ออกแบบเอง
 
@@ -457,9 +454,8 @@ Future<void> updateDemoPost() async {
 
 > ✅ **Checkpoint 3.2** ถ่ายภาพหน้าจอ Debug Console ที่แสดง Status Code ของการเรียก PUT (ควรเป็น `200 OK`)
 
-```text
 ![Checkpoint 3.2](assets/images/cp3_2.png)
-```
+
 
 ---
 
@@ -514,10 +510,9 @@ GET https://fakestoreapi.com/products
 
 > ✅ **Checkpoint 4.2** ถ่ายภาพหน้าจอ Debug Console ที่แสดงผลลัพธ์จริงจากการเรียก `fetchAiProducts()` (เช่น รายการสินค้าที่ print ออกมา)
 
-```text
 ![Checkpoint 4.1](assets/images/cp4_1.png)
 ![Checkpoint 4.2](assets/images/cp4_2.png)
-```
+
 
 ---
 
@@ -578,9 +573,8 @@ Future<Weather> fetchWeatherWithDio(String city) async {
 
 > ✅ **Checkpoint 5.1** ถ่ายภาพหน้าจอ Debug Console ที่แสดงผลลัพธ์จริงจากการเรียก `fetchWeatherWithDio()` (ค่าทั้ง 4 ฟิลด์ของ `Weather` ที่ print ออกมา หรือแสดงผลบนหน้าจอถ้าเลือกแบบที่ 2)
 
-```text
 ![Checkpoint 5.1](assets/images/cp5_1.png)
-```
+
 
 ### ขั้นตอนที่ 5.4 — 🧠 คิดเอง/ออกแบบเอง
 
@@ -738,9 +732,8 @@ void main() {
 
 > ✅ **Checkpoint 7.1** ถ่ายภาพ Debug Console ที่ทดสอบ `Item.fromJson()` กับ JSON ตัวอย่างข้างต้นแล้ว print ค่าทั้ง 6 ฟิลด์ออกมาได้ถูกต้อง
 
-```text
 ![Checkpoint 7.1](assets/images/cp7_1.png)
-```
+
 
 ### ขั้นตอนที่ 7.3 — 🔧 ทำตาม (Interface) + 🧠 คิดเอง (Implementation)
 
@@ -876,10 +869,9 @@ class _HomePageState extends State<HomePage> {
 
 > ✅ **Checkpoint 7.3** รันแอปแล้วถ่ายภาพหน้าจอ Home ที่แสดงรายการสินค้าจริงจาก Fake Store API ผ่าน `ItemRepositoryApi` (ไม่ใช่ข้อมูล mock up) พร้อมภาพโครงสร้างไฟล์ที่แสดงให้เห็นว่ามีทั้ง `item_repository.dart` (Interface) และ `item_repository_api.dart` (Impl) แยกกันชัดเจน และทดสอบว่าปุ่ม "เพิ่มลงตะกร้า" กับการกดไปหน้า `CheckoutPage` จากสัปดาห์ที่ 5 ยังทำงานได้ปกติกับข้อมูล `Item` ชุดใหม่นี้
 
-```text
 ![Checkpoint 7.3 - App UI](assets/images/cp7_2.png)
 ![Checkpoint 7.3 - File Structure](assets/images/cp7_3.png)
-```
+
 
 ---
 
