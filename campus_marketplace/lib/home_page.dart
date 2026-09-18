@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'models/item.dart';
+import 'models/favorites_model.dart';
 import 'models/cart_model.dart';
-import 'repositories/item_repository.dart';
+import 'widgets/item_list_section.dart';
+import 'favorites_page.dart';
 import 'checkout_page.dart';
+import 'repositories/item_repository.dart';
 
 class HomePage extends StatefulWidget {
   final ItemRepository repository;
@@ -14,6 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String _searchQuery = '';
   late Future<List<Item>> _itemsFuture;
 
   @override
@@ -28,6 +32,19 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Campus Marketplace'),
         actions: [
+          IconButton(
+            icon: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.favorite),
+                Text(' ${context.watch<FavoritesModel>().itemCount}'),
+              ],
+            ),
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const FavoritesPage()),
+            ),
+          ),
           IconButton(
             icon: Badge(
               label: Text('${context.watch<CartModel>().itemCount}'),
@@ -55,28 +72,35 @@ class _HomePageState extends State<HomePage> {
             return const Center(child: Text('ไม่มีสินค้า'));
           }
 
-          return ListView.builder(
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              final item = items[index];
-              return Card(
-                margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                child: ListTile(
-                  leading: Image.network(item.imageUrl, width: 50, height: 50, fit: BoxFit.cover),
-                  title: Text(item.title, maxLines: 1, overflow: TextOverflow.ellipsis),
-                  subtitle: Text('\$${item.price}'),
-                  trailing: ElevatedButton(
-                    onPressed: () {
-                      context.read<CartModel>().add(item);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('เพิ่ม ${item.title} ลงตะกร้าแล้ว')),
-                      );
-                    },
-                    child: const Text('เพิ่มลงตะกร้า'),
+          // กรองรายการสินค้าตามคำค้นหา (Ephemeral State)
+          final filteredCatalog = items.where((item) {
+            return item.title.toLowerCase().contains(_searchQuery.toLowerCase());
+          }).toList();
+
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: TextField(
+                  decoration: const InputDecoration(
+                    hintText: 'ค้นหาสินค้า...',
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   ),
+                  onChanged: (value) {
+                    setState(() {
+                      _searchQuery = value;
+                    });
+                  },
                 ),
-              );
-            },
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: ItemListSection(catalog: filteredCatalog),
+                ),
+              ),
+            ],
           );
         },
       ),
